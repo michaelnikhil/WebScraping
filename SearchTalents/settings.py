@@ -21,14 +21,17 @@ USER_AGENT = 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:75.0) Gecko/20100101 Fi
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
 
+LOG_ENABLED = True
 LOG_LEVEL = "INFO"
+
+#DEPTH_LIMIT = 3
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
 
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-# DOWNLOAD_DELAY = 3
+DOWNLOAD_DELAY = 1
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
@@ -47,9 +50,11 @@ LOG_LEVEL = "INFO"
 
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-#SPIDER_MIDDLEWARES = {
-#    'SearchTalents.middlewares.SearchtalentsSpiderMiddleware': 543,
-#}
+URLLENGTH_LIMIT = 27
+SPIDER_MIDDLEWARES = {
+#   'SearchTalents.middlewares.SearchtalentsSpiderMiddleware': 543,
+'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware':300
+}
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
@@ -64,10 +69,20 @@ LOG_LEVEL = "INFO"
 #}
 
 # Configure item pipelines
+### WARNING : the settings are overwritten in the spiders (local custom settings)
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
+#pipeline to individual webpages to look for occurences of keywords
+# scrapy crawl skills
+# ITEM_PIPELINES = {
+#     'SearchTalents.pipelines.JsonWriterPipeline': 201,
+#     'SearchTalents.pipelines.FindKeywords': 200,
+# }
+
+#pipeline to crawl over entire websites to find only the pages related to people or team members
+#scrapy crawl links
 ITEM_PIPELINES = {
-    'SearchTalents.pipelines.JsonWriterPipeline': 300,
-    'SearchTalents.pipelines.FilterText': 200,
+    'SearchTalents.pipelines.JsonWriterPipeline': 201,
+    'SearchTalents.pipelines.FilterUrl': 200,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
