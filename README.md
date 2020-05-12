@@ -1,5 +1,5 @@
 # WebScraping
-Search for talents using hard coded web scraping
+Search for talents using hard coded web scraping (see https://devpost.com/software/digital-talent-agency-smart-talent-relations )
 
 Program which crawls a predefined list of website, and looks for some basic text information using the Scrapy library.
 
